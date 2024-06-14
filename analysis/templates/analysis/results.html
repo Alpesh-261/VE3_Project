@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis Results</title>
+    <link rel="icon" type="image/png" href="/base/icons/favicon.png">
+    s
+</head>
+<body>
+    <h1>Analysis Results</h1>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 20px;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #333;
+            padding-bottom: 5px;
+        }
+        h2 {
+            color: #555;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 5px;
+        }
+        h3 {
+            color: #777;
+            margin-top: 20px;
+        }
+        div {
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        img {
+            max-width: 100%;
+            display: block;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+    </style>
+    </style>
+    <div>
+        <h2>First Few Rows</h2>
+        {{ analysis_result.head |safe }}
+    </div>
+
+    <div>
+        <h2>Summary Statistics</h2>
+        {{ analysis_result.summary_stats|safe }}
+    </div>
+    
+    <div>
+        <h2>Missing Values</h2>
+        {{ analysis_result.missing_values|safe }}
+    </div>
+    
+    <div>
+        <h2>Plots</h2>
+        {% load custom_filters %}
+        {% for key, plot in analysis_result.items %}
+            {% if key|endswith:"_histogram" %}
+                <h3>{{ key|capfirst }}</h3>
+                <img src="{{ plot }}" alt="{{ key }}">
+            {% endif %}
+        {% endfor %}
+    </div>
+</body>
+</html>
